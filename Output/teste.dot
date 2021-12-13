@@ -1,0 +1,36 @@
+digraph liste { 
+graph [ 
+	rankdir = "TB" 
+] 
+
+node [ 
+	fontname = "Arial bold"
+	fontsize = "14" 
+	fontcolor = "red" 
+	style = "rounded, filled" 
+	shape = "record" 
+	fillcolor = "grey90" 
+	color = "blue" 
+	width = "2" 
+	shape=record
+]
+
+edge [ 
+	color = "blue" 
+] 
+
+
+"ID_0001" [label = "{<elt> 30000000  | <nextL> NULL}|{<> 1 | <nextR> NULR}"];
+"ID_0001" : nextL -> "ID_0002";
+"ID_0001" : nextR -> "ID_0003";
+"ID_0002" [label = "{<elt> 30000000  | <nextL> NULL}|{<> 1 | <nextR> NULR}"];
+"ID_0002" : nextL -> "ID_0004";
+"ID_0002" : nextR -> "ID_0005";
+"ID_0003" [label = "{<elt> 30000000  | <nextL> NULL}|{<> 1 | <nextR> NULR}"];
+"ID_0003" : nextL -> "ID_0006";
+"ID_0003" : nextR -> "ID_0007";
+"ID_0004" [label = "{<elt> 30  | <next> NULL }"];
+"ID_0005" [label = "{<elt> 30  | <next> NULL }"];
+"ID_0006" [label = "{<elt> 30  | <next> NULL }"];
+"ID_0007" [label = "{<elt> 30  | <next> NULL }"];
+}
