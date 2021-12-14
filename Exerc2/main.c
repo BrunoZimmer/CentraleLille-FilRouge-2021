@@ -1,93 +1,92 @@
-#include "data.h"
+#include "../Headers/main.h"
 //gcc main.c data.h avl.c -o main
-//.\main lemas_en_shuf.txt TheGodfather-MarioPuzo-Chapter1.txt SaidaTeste.txt
+//.\main lemas_en_shuf.txt TheGodfather-MarioPuzo-Chapter1.txt sortieTeste.txt
 
 int main(int argc, char **argv) {
 
-    char* arquivoEntrada = argv[2];
-    char* arquivoSaida = argv[3];
-    char* arquivoDicionario = argv[1];
-//    char* arquivoEntrada = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\TheGodfather-MarioPuzo-Chapter1.txt";
-//    char* arquivoSaida = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\saida.txt";
-//    char* arquivoDicionario = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\lemas_en_shuf.txt";
+    char* fichierEntree = argv[2];
+    char* fichierSortie = argv[3];
+    char* fichierDictionnaire = argv[1];
+//    char* fichierEntree = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\TheGodfather-MarioPuzo-Chapter1.txt";
+//    char* fichierSortie = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\sortie.txt";
+//    char* fichierDictionnaire = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\lemas_en_shuf.txt";
 
-    char *palavra, *chave, linha[MAXCHAR], *lema; // linhas a serem lidas do arquivo
-    char separador[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
+    char *mot, *cle, ligne[MAXCHAR], *lema; // lignes a lire par le programme
+    char separateur[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
 
-    int contador, comp;
+    int compteur, comp;
 
     int ok;
 
-    clock_t comeco, fimArvore, fim; //para contar o tempo decorrido
+    clock_t debut, finArbre, fin; //Pour compter le temps
 
-    FILE * dicionario;//abrir o input
-    FILE * entrada;//abrir o input
-    FILE * saida;//Abrir o output
+    FILE * dictionnaire;//ouvrir l'input
+    FILE * entree;//ouvrir l'input
+    FILE * sortie;//ouvrir l'output
 
-    pNodoA *arvoreAVL;//Raiz da arvore AVL
-
-
-    setlocale(LC_ALL,"");//Permitir print de acentos corretamente
+    T_arbNode *arbreAVL ;//Racine de l'arbre AVL
 
 
-//############################## ARIR ARQUIVO DE LEMAS AVL ########################################################
-    comeco = clock();//Contagem de tempo mexendo no arquivo
+    setlocale(LC_ALL,"");//Autoriser correctement les caractères d'accentuation
 
-    dicionario = fopen (arquivoDicionario, "r");
-    if (dicionario == NULL){//Erro ao abrir arquivo corrompido
-        printf ("Erro ao abrir o arquivo %s", arquivoDicionario);
+
+//############################## OUVRIER LE FICHIER DE LEMA ########################################################
+    debut = clock();//Compter le temps de déplacement du fichier
+
+    dictionnaire = fopen (fichierDictionnaire, "r");
+    if (dictionnaire == NULL){//Erreur lors de l'ouverture du fichier corrompu
+        printf ("Erreur lors de l'ouverture du fichier %s", fichierDictionnaire);
         return 1;
     }
-    arvoreAVL = InicializaArvoreAVL();//Inicia arvore AVL
-    contador = 0;//inicia contador de tempo só pra visualizar
+    arbreAVL = StartTree();//Demarrer l'arbre AVL
+    compteur = 0;//Demarrer compteur de temp que pour visualizer
 
 
-//############################# CRIAR DICIONARIO AVL #######################################################
-    while (fgets(linha,MAXCHAR,dicionario)){//Percorre por paragrafos
-        palavra= strtok (linha, separador);// Todos caracteres definidos antes como separador
-        chave= palavra;
-        palavra= strtok(NULL, separador);
-        arvoreAVL = InsereAVL(arvoreAVL, palavra, chave, &ok);
-        if(abs(clock()%CLOCKS_PER_SEC) < 50){//ficar contando enquanto carrega a arvore
-            contador ++;
+//############################# CREER dictionnaire AVL #######################################################
+    while (fgets(ligne,MAXCHAR,dictionnaire)){//Parchemins par paragraphes
+        mot= strtok (ligne, separateur);// Tous les caractères définis auparavant comme séparateur
+        cle= mot;
+        mot= strtok(NULL, separateur);
+        arbreAVL = InsertAVL(arbreAVL, mot, cle, &ok);
+        if(abs(clock()%CLOCKS_PER_SEC) < 50){//continuer à compter tout en portant l'arbre
+            compteur ++;
             system("cls");
-            printf("Carregando o dicionario em AVL: %d\n", contador);
+            printf("Chargement du dictionnaire dans AVL: %d\n", compteur);
         }
     }
     system("cls");
-    printf("Carregamento concluído");
+    printf("Chargement conclu");
 
-    fimArvore = clock();
+    finArbre = clock();
 
-//############################### ARQUIVO DE SAIDA AVL###########################################################
-    entrada = fopen (arquivoEntrada, "r");//Abre arquivo de entrada
-    saida = fopen(arquivoSaida, "w");//Cria o arquivo de saida PARA POR OS LEMAS
-
+//############################### fichier de sortie AVL###########################################################
+    entree = fopen (fichierEntree, "r");//ouvre fichier d'entrée
+    sortie = fopen(fichierSortie, "w");//Crée le fichier de sortie POUR METTRE LES LEMAS
     comp = 0;
-    while (fgets(linha,MAXCHAR,entrada)){//Percorre por paragrafos
-        palavra = strtok (linha, separador);
+    while (fgets(ligne,MAXCHAR,entree)){//Parchemins par paragraphes
+        mot = strtok (ligne, separateur);
 
-        while (palavra != NULL){
-            lema = ConsultaAVL(arvoreAVL, strlwr(palavra), &comp);//Verifica se a palavra do texto tem lema
-            fprintf(saida,"%s ", strlwr(lema));//salva a palavra no arquivo de saida
-            palavra = strtok (NULL, separador);
+        while (mot != NULL){
+            lema = ConsultaAVL(arbreAVL, strlwr(mot), &comp);//Vérifiez si le texte a une lema
+            fprintf(sortie,"%s ", strlwr(lema));//enregistrer mot dans le fichier de sortie
+            mot = strtok (NULL, separateur);
         }
-        fprintf(saida,"\n");//Separador de paragrafos
+        fprintf(sortie,"\n");//separateur de paragraphes
     }
 
-    printf("\nArquivo %s usando a AVL gerado com sucesso.\n",arquivoSaida);
-    printf("\nForam feitas %d acoes de pesquisa na AVL.\n",comp);
+    printf("\nFichier %s utilisant AVL généré avec succès.\n",fichierSortie);
+    printf("\n%d actions de recherche ont été effectuées dans AVL.\n",comp);
 
-    fim = clock(); // finaliza contagem do tempo
-    float milisecondsTot = (float)(fim - comeco) / CLOCKS_PER_SEC * 1000; //calcula o tempo decorrido
-    float milisecondsArv = (float)(fimArvore - comeco) / CLOCKS_PER_SEC * 1000; //calcula o tempo decorrido
-    float milisecondsLema = (float)(fim - fimArvore) / CLOCKS_PER_SEC * 1000; //calcula o tempo decorrido
-    printf("Demandou um tempo total de %.2f ms\n",milisecondsTot);
-    printf("Demandou um tempo para criacao da arvore de %.2f ms\n",milisecondsArv);
-    printf("Demandou um tempo para lematizar de %.2f ms\n",milisecondsLema);
+    fin = clock(); // fin du compte du temp
+    float milisecondsTot = (float)(fin - debut) / CLOCKS_PER_SEC * 1000; //calcul de temps écoule
+    float milisecondsArb = (float)(finArbre - debut) / CLOCKS_PER_SEC * 1000; // calcul de temps écoule
+    float milisecondsLema = (float)(fin - finArbre) / CLOCKS_PER_SEC * 1000; // calcul de temps écoule
+    printf("Cela a pris un temps total de %.2f ms\n",milisecondsTot);
+    printf("Il a fallu du temps pour créer l'arbre %.2f ms\n",milisecondsArb);
+    printf("A mis du temps à provenir de %.2f ms\n",milisecondsLema);
 
-    fclose (entrada); //fecha os arquivos
-    fclose (saida);
+    fclose (entree); //fermer les fichiers
+    fclose (sortie);
 
     return 0;
 }
