@@ -1,12 +1,13 @@
 #include "../Headers/main.h"
 
-#define MAXCHAR 60
+#define MAXCHAR 100
 
 int main(){
     T_arbNode *arbre;
     FILE* filePNG, *fileFin;
     int fator,ok, i;
     char filename[MAXCHAR];
+    const char commandLine[MAXCHAR];
 
     arbre = StartTree();
 
@@ -20,9 +21,15 @@ int main(){
         arbre = InsertAVL(arbre, rand()%50, &ok);
         PrintWLevel(arbre, 0);NL();NL();
         generatePNG(arbre, filename, 1);
-        fputs("\n\n}", filePNG);
-        // fclose(filePNG);
+        fputs("\n}", filePNG);
+
+        // sprintf(commandLine, "dot ./Output/Image%d.dot -T png -o ./Output/PNGImage%d.png", i,i);
+        // sprintf(commandLine, "rm ./Output/Image%d.dot", i); ÇA MARCHE (?????)
+        // system(commandLine);
+        
     }
+    // sprintf(commandLine, "zip -r ./Output/PNGImages.zip ./Output/*.png", i);
+    // system(commandLine);
     
 
     printf("\nFator da Arvore A\n###########################\n");
@@ -32,6 +39,8 @@ int main(){
     fator = FactorTree(arbre);
     printf("O fator e %d\n", fator);
     printf("###########################\n");
+
+    system("pwd");
 
     return 0;
 

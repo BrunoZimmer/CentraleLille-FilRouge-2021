@@ -19,13 +19,12 @@ edge [
 ] 
 
 
-"ID_0003" [label = "{<elt> 36  | <next> NULL}|{<facteur> 0 | <next> NULL}"];
-"ID_0003" [label = "{<elt> 15  | <next> NULL}|{<facteur> 0 | <next> NULL}"];
-"ID_0002" [label = "{<elt> 27  | <next> }|{<facteur> 1 | <next> NULL}"];
+"ID_0003" [label = "{<elt> 36  | <> 0 } |{<nextL> NULL | <next> NULL}"];
+"ID_0003" [label = "{<elt> 15  | <> 0 } |{<nextL> NULL | <next> NULL}"];
+"ID_0002" [label = "{<elt> 27  | <> 1 } |{<nextL>  | <next> NULL }"];
 "ID_0002" : next -> "ID_0003";
-"ID_0001" [label = "{<elt> 33  | <next> }|{<facteur> 1 | <next>}"];
+"ID_0001" [label = "{<elt> 33  | <> 1 } |{<nextL>  | <next> }"];
 "ID_0001" : next -> "ID_0002";
 "ID_0001" : next -> "ID_0003";
-
 
 }

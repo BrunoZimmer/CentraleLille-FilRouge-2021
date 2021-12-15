@@ -19,7 +19,6 @@ edge [
 ] 
 
 
-"ID_0001" [label = "{<elt> 33  | <next> NULL}|{<facteur> 0 | <next> NULL}"];
-
+"ID_0001" [label = "{<elt> 33  | <> 0 } |{<nextL> NULL | <next> NULL}"];
 
 }

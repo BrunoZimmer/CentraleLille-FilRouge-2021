@@ -19,9 +19,8 @@ edge [
 ] 
 
 
-"ID_0003" [label = "{<elt> 36  | <next> NULL}|{<facteur> 0 | <next> NULL}"];
-"ID_0001" [label = "{<elt> 33  | <next> NULL}|{<facteur> -1 | <next>}"];
+"ID_0003" [label = "{<elt> 36  | <> 0 } |{<nextL> NULL | <next> NULL}"];
+"ID_0001" [label = "{<elt> 33  | <> -1 } |{<nextL> NULL | <next> }"];
 "ID_0001" : next -> "ID_0003";
-
 
 }
