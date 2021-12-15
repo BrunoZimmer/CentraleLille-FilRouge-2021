@@ -5,19 +5,20 @@
 void generatePNG(const T_Arbre l, const char * filename, int indice){
 	FILE *file;
 
-	T_Arbre aux = aux;
+	T_Arbre aux = l;
 	int i=0;
-	if(fopen(filename, "r")){
-        fclose(file);
-	}else{
-		file = fopen(filename, "w");
-		generateHeaderPNG(file);
-	}
+	// if(fopen(filename, "r")){
+    //     // fclose(file);
+	// }else{
+    //     // fclose(file);
+	// 	file = fopen(filename, "w");
+	// 	generateHeaderPNG(file);
+	// }
 
 
     if (aux){
 		i=i+1;
-        generatePNG(aux->l, filename, aux->facteur);
+        // generatePNG(aux->l, filename, aux->facteur);
 		if(aux->l && aux->r){
 			//"ID_0003" [label = "{<elt> 30000000  | <next> NULL}|{<> 1 | <next> NULL}"];
 			fprintf(file, "\"ID_%04d\" [label = \"{<elt> %s  | <next> }", i,toString(aux->data));
@@ -47,10 +48,11 @@ void generatePNG(const T_Arbre l, const char * filename, int indice){
 
 void generateHeaderPNG(FILE * filePNG)
 {
-	char ch, sourceFile[30];
+	char ch, sourceFile[MAXCHAR];
 	FILE *source;
 
-	strcpy(sourceFile, "./Headers/header.dot");
+	strcpy(sourceFile, "../Headers/header.dot");
+	
     
 	source = fopen(sourceFile, "r");
 	while( ( ch = fgetc(source) ) != EOF )

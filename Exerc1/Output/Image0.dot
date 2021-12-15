@@ -1,0 +1,21 @@
+digraph liste { 
+graph [ 
+	rankdir = "LR" 
+] 
+
+node [ 
+	fontname = "Arial bold"
+	fontsize = "14" 
+	fontcolor = "red" 
+	style = "rounded, filled" 
+	shape = "record" 
+	fillcolor = "grey90" 
+	color = "blue" 
+	width = "2" 
+] 
+
+edge [ 
+	color = "blue" 
+] 
+
+

@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     T_arbNode *arbreAVL ;//Racine de l'arbre AVL
 
 
-    setlocale(LC_ALL,"");//Autoriser correctement les caractères d'accentuation
+    // setlocale(LC_ALL,"");//Autoriser correctement les caractères d'accentuation
 
 
 //############################## OUVRIER LE FICHIER DE LEMA ########################################################
@@ -47,7 +47,8 @@ int main(int argc, char **argv) {
         mot= strtok (ligne, separateur);// Tous les caractères définis auparavant comme séparateur
         cle= mot;
         mot= strtok(NULL, separateur);
-        arbreAVL = InsertAVL(arbreAVL, mot, cle, &ok);
+        //arbreAVL = InsertAVL(arbreAVL, mot, cle, &ok);
+        arbreAVL = InsertAVL(arbreAVL, mot, &ok);
         if(abs(clock()%CLOCKS_PER_SEC) < 50){//continuer à compter tout en portant l'arbre
             compteur ++;
             system("cls");
@@ -67,8 +68,8 @@ int main(int argc, char **argv) {
         mot = strtok (ligne, separateur);
 
         while (mot != NULL){
-            lema = ConsultaAVL(arbreAVL, strlwr(mot), &comp);//Vérifiez si le texte a une lema
-            fprintf(sortie,"%s ", strlwr(lema));//enregistrer mot dans le fichier de sortie
+            lema = ConsultaAVL(arbreAVL, strlen(mot), &comp);//Vérifiez si le texte a une lema
+            fprintf(sortie,"%s ", strlen(lema));//enregistrer mot dans le fichier de sortie
             mot = strtok (NULL, separateur);
         }
         fprintf(sortie,"\n");//separateur de paragraphes

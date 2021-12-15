@@ -12,6 +12,7 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 #define LINELENGTH 60
+#define MAXCHAR 60
 
 typedef struct T_arbNode {
 	T_elt data;
