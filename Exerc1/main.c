@@ -1,18 +1,10 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#include "../Headers/avl.h"
-#include "../Headers/elt.h"
-#include "../Headers/Exerc1.h"
+#include "../Headers/main.h"
 
 #define MAXCHAR 60
 
 int main(){
     T_arbNode *arbre;
-    FILE* filePNG;
+    FILE* filePNG, *fileFin;
     int fator,ok, i;
     char filename[MAXCHAR];
 
@@ -26,19 +18,22 @@ int main(){
         fclose(filePNG);
 
         arbre = InsertAVL(arbre, rand()%50, &ok);
-        PrintWLevel(arbre, 0);
-        generatePNG(arbre, filename, arbre->facteur);
+        PrintWLevel(arbre, 0);NL();NL();
+        generatePNG(arbre, filename, 1);
+        fputs("\n\n}", filePNG);
+        // fclose(filePNG);
     }
+    
 
-   printf("\nFator da Arvore A\n###########################\n");
-   PrintWLevel(arbre, 0);
-   printf("###########################\n");
-   
-   fator = FactorTree(arbre);
-   printf("O fator e %d\n", fator);
-   printf("###########################\n");
+    printf("\nFator da Arvore A\n###########################\n");
+    PrintWLevel(arbre, 0);
+    printf("###########################\n");
 
-   return 0;
+    fator = FactorTree(arbre);
+    printf("O fator e %d\n", fator);
+    printf("###########################\n");
+
+    return 0;
 
 }
 
