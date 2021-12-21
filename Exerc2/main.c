@@ -4,17 +4,20 @@
 
 int main(int argc, char **argv) {
 
-    char* fichierEntree = argv[2];
-    char* fichierSortie = argv[3];
-    char* fichierDictionnaire = argv[1];
-//    char* fichierEntree = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\TheGodfather-MarioPuzo-Chapter1.txt";
-//    char* fichierSortie = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\sortie.txt";
-//    char* fichierDictionnaire = "c:\\Users\\Bruno\\Desktop\\Estudos\\EstruturaDados\\ProjetoFinal\\ArquivosTeste\\lemas_en_shuf.txt";
+    // char* fichierEntree = argv[2];
+    // char* fichierSortie = argv[3];
+    // char* fichierArg = argv[1];
+    char* fichierArg = "../Dico_nn/Dico_01.txt";
+//    char* fichierSortie = "./Output/Test.txt";
+//    char* fichierDictionnaire = "../Dico_nn/Dico_03.txt";
+    char* fichierEntree[MAXCHAR];
+
+    sprintf(fichierEntree, "../Dico_nn/%s", fichierArg);
 
     char *mot, *cle, ligne[MAXCHAR], *lema; // lignes a lire par le programme
     char separateur[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
 
-    int compteur, comp;
+    int compteur, comp, compteurMots=0, compteurNodes=0, hauter=0;
 
     int ok;
 
@@ -33,9 +36,9 @@ int main(int argc, char **argv) {
 //############################## OUVRIER LE FICHIER DE LEMA ########################################################
     debut = clock();//Compter le temps de déplacement du fichier
 
-    dictionnaire = fopen (fichierDictionnaire, "r");
+    dictionnaire = fopen (fichierEntree, "r");
     if (dictionnaire == NULL){//Erreur lors de l'ouverture du fichier corrompu
-        printf ("Erreur lors de l'ouverture du fichier %s", fichierDictionnaire);
+        printf ("Erreur lors de l'ouverture du fichier %s", fichierArg);
         return 1;
     }
     arbreAVL = StartTree();//Demarrer l'arbre AVL
@@ -44,11 +47,16 @@ int main(int argc, char **argv) {
 
 //############################# CREER dictionnaire AVL #######################################################
     while (fgets(ligne,MAXCHAR,dictionnaire)){//Parchemins par paragraphes
+        compteurMots = compteurMots+1;
         mot= strtok (ligne, separateur);// Tous les caractères définis auparavant comme séparateur
+        printf("La taille de %s est de %d", mot, length(mot));
+
+        //FAIRE LA FONCTION POUR FAIRE LA SIGNATURE DE LA MOT - ORDENER EN ORDER ALPHABETIC
         cle= mot;
+
+
         mot= strtok(NULL, separateur);
-        //arbreAVL = InsertAVL(arbreAVL, mot, cle, &ok);
-        arbreAVL = InsertAVL(arbreAVL, mot, &ok);
+        arbreAVL = InsertAVL(arbreAVL, cle, &ok);
         if(abs(clock()%CLOCKS_PER_SEC) < 50){//continuer à compter tout en portant l'arbre
             compteur ++;
             system("cls");
@@ -61,21 +69,19 @@ int main(int argc, char **argv) {
     finArbre = clock();
 
 //############################### fichier de sortie AVL###########################################################
-    entree = fopen (fichierEntree, "r");//ouvre fichier d'entrée
-    sortie = fopen(fichierSortie, "w");//Crée le fichier de sortie POUR METTRE LES LEMAS
     comp = 0;
     while (fgets(ligne,MAXCHAR,entree)){//Parchemins par paragraphes
         mot = strtok (ligne, separateur);
 
         while (mot != NULL){
-            lema = ConsultaAVL(arbreAVL, strlen(mot), &comp);//Vérifiez si le texte a une lema
+            lema = ConsulterAVL(arbreAVL, mot, &comp);//Vérifiez si le texte a une lema
             fprintf(sortie,"%s ", strlen(lema));//enregistrer mot dans le fichier de sortie
             mot = strtok (NULL, separateur);
         }
         fprintf(sortie,"\n");//separateur de paragraphes
     }
 
-    printf("\nFichier %s utilisant AVL généré avec succès.\n",fichierSortie);
+    // printf("\nFichier %s utilisant AVL généré avec succès.\n",fichierSortie);
     printf("\n%d actions de recherche ont été effectuées dans AVL.\n",comp);
 
     fin = clock(); // fin du compte du temp
@@ -85,6 +91,13 @@ int main(int argc, char **argv) {
     printf("Cela a pris un temps total de %.2f ms\n",milisecondsTot);
     printf("Il a fallu du temps pour créer l'arbre %.2f ms\n",milisecondsArb);
     printf("A mis du temps à provenir de %.2f ms\n",milisecondsLema);
+    printf("Il y a %d mots sur le dictionnaire\n",compteurMots);
+
+    compteurNodes = NodeCounter(arbreAVL, 0);
+    printf("Il y a %d nodes sur le dictionnaire\n",compteurNodes);
+
+    hauter = Height(arbreAVL);
+    printf("Il y a une hauter de %d\n",hauter);
 
     fclose (entree); //fermer les fichiers
     fclose (sortie);

@@ -1,0 +1,40 @@
+digraph liste { 
+graph [ 
+	rankdir = "LR" 
+] 
+
+node [ 
+	fontname = "Arial bold"
+	fontsize = "14" 
+	fontcolor = "red" 
+	style = "rounded, filled" 
+	shape = "record" 
+	fillcolor = "grey90" 
+	color = "blue" 
+	width = "2" 
+] 
+
+edge [ 
+	color = "blue" 
+] 
+
+
+"ID_0007" [label = "{<elt> 49  | <> 0 } |{<nextL> NULL | <next> NULL}"];
+"ID_0005" [label = "{<elt> 43  | <> -1 } |{<nextL> NULL | <next> }"];
+"ID_0005" : next -> "ID_0007";
+"ID_0006" [label = "{<elt> 36  | <> -1 } |{<nextL> NULL | <next> NULL}"];
+"ID_0005" [label = "{<elt> 35  | <> 0 } |{<nextL> NULL | <next> NULL}"];
+"ID_0004" [label = "{<elt> 36  | <> -1 } |{<nextL>  | <next> }"];
+"ID_0004" : next -> "ID_0005";
+"ID_0004" : next -> "ID_0006";
+"ID_0003" [label = "{<elt> 42  | <> 0 } |{<nextL>  | <next> }"];
+"ID_0003" : next -> "ID_0004";
+"ID_0003" : next -> "ID_0005";
+"ID_0003" [label = "{<elt> 15  | <> 0 } |{<nextL> NULL | <next> NULL}"];
+"ID_0002" [label = "{<elt> 27  | <> 1 } |{<nextL>  | <next> NULL }"];
+"ID_0002" : next -> "ID_0003";
+"ID_0001" [label = "{<elt> 33  | <> -1 } |{<nextL>  | <next> }"];
+"ID_0001" : next -> "ID_0002";
+"ID_0001" : next -> "ID_0003";
+
+}

@@ -29,12 +29,16 @@ T_arbNode* InsertAVL(T_arbNode *node, T_elt data, int *ok){
     if (!node){
         node = (T_arbNode*) malloc(sizeof(T_arbNode));
         node->data = data;
+        //FAIRE LA FONCTION POUR AVOIR CE CODE ICI
+        //node->data2 = SIGNATURE(data);
+
         node->facteur = 0;
         node->l = NULL;
         node->r = NULL;
 
         *ok = 1;
     }
+//else if(data < node->data2){LE CORRECT *************************************************************
     else if(data < node->data){
         node->facteur = FindFactor(node);
         node->l = InsertAVL(node->l, data, ok);
@@ -433,17 +437,19 @@ int imprime_nesino(T_arbNode *a, int n){
     return n;
 }
 
-char* ConsultaAVL(T_arbNode *a, char* cle, int *comp){
+char* ConsulterAVL(T_arbNode *a, char* cle, int *comp){
     while (a!=NULL){
 
         *comp+=1;
         //percorre a arvore até encontrar o nodo
+        //if (strcmp(a->data2,cle)==0){ LE CORRECT *************************************************************
         if (strcmp(a->data,cle)==0){
             *comp+=1;//conta uma operação toda vez que avança um nodo ou quando encontra o requerido
             return a->data;
         }
         else {
             *comp+=1;
+        //if (strcmp(a->data2,cle)==0){ LE CORRECT *************************************************************
             if (strcmp(a->data,cle)>0)
                 a = a->l;
 

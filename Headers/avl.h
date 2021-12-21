@@ -16,6 +16,7 @@
 
 typedef struct T_arbNode {
 	T_elt data;
+	T_elt data2;
 	int facteur;
 	struct T_arbNode *l;
 	struct T_arbNode *r;

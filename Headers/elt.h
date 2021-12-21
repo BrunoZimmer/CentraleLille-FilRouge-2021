@@ -4,8 +4,8 @@
 	/////////////////////////////////////////////////////////////////////////
 	// CHOISIR ICI CE QUE REPRESENTE LE TYPE T_elt 
 	//#define ELT_CHAR		// un caractère ?
-	#define ELT_INT		// un entier (choix par défaut) ?
-	//#define ELT_STRING	// une chaîne de caractères ?
+	//#define ELT_INT		// un entier (choix par défaut) ?
+	#define ELT_STRING	// une chaîne de caractères ?
 	/////////////////////////////////////////////////////////////////////////
 
 	//https://stackoverflow.com/questions/2998864/how-to-add-a-or-condition-in-ifdef
@@ -26,9 +26,10 @@
 	typedef char * T_elt; 
 	#endif
 
+
 	// valable pour tous les types de T_elt 
 	char * toString(T_elt e); 
 	T_elt genElt(void); 
-  int compElt(T_elt e1, T_elt e2);
+	int compElt(T_elt e1, T_elt e2);
 #endif 
 

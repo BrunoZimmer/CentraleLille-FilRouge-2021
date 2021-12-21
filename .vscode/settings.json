@@ -4,6 +4,7 @@
         "exerc1.h": "c",
         "list.h": "c",
         "avl.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "time.h": "c"
     }
 }
