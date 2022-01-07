@@ -11,3 +11,10 @@ Exercice 1
 2- ./displayAVL.exe + Fichier de noms + nombre de lignes à utiliser
 
 Exercice 2
+1- make
+2- ./indexation.exe + Fichier de dic
+
+Exercice 3
+1- make
+2- ./anagrammes.exe + Fichier de dic
+
