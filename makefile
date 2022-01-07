@@ -1,8 +1,9 @@
+TARGETS=$(shell ls -d Partie*)
+CLEANTARGETS=$(foreach dir,$(TARGETS),clean_$(dir))
 
 all: 
 	@echo "Veuillez choisir une cible parmi : $(TARGETS)"
 	@echo "Les exécutables seront produits dans les sous-répertoires correspondants"
-	@echo "Le bouton \"Run\" de l'interface de Repl.it ne doit pas etre utilisé"
 	@echo "N'oubliez pas d'exécuter la commande source setup_env.sh"
 
 .PHONY: $(TARGETS)
@@ -17,5 +18,7 @@ $(CLEANTARGETS) :
 clean: $(CLEANTARGETS)
 
 
+tout: 
+	@echo "Vous n'avez pas autre chose à faire que chercher des easter eggs dans un makefile ?"	
 
-
+toutout: $(TARGETS)

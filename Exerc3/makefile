@@ -13,9 +13,8 @@ all: $(CIBLE)
 $(CIBLE) : $(SOURCES)
 	@echo -n "Production de $(CIBLE)"
 	@echo " à partir des fichiers : $(SOURCES)"
-	gcc $(CFLAGS) $(SOURCES) -o indexation.exe -lm
+	gcc $(CFLAGS) $(SOURCES) -o anagrammes.exe
 
 clean: 
 	@echo "Nettoyage de $(CIBLE)"
 	@rm -rf $(CIBLE)
-

@@ -2,20 +2,20 @@
 
 
 int main(){
-    T_arbNode *arbre;
+    T_abrNode *arbre;
     int fator,ok;
 
     arbre = StartTree();
 
-    arbre = InsertAVL(arbre, 35, &ok);
-    arbre = InsertAVL(arbre, 2, &ok);
-    arbre = InsertAVL(arbre, 71, &ok);
-    arbre = InsertAVL(arbre, 6, &ok);
-    arbre = InsertAVL(arbre, 49, &ok);
-    arbre = InsertAVL(arbre, 73, &ok);
-    arbre = InsertAVL(arbre, 28, &ok);
-    arbre = InsertAVL(arbre, 44, &ok);
-    arbre = InsertAVL(arbre, 50, &ok);
+    arbre = insertAVL(&arbre, 35);
+    arbre = insertAVL(&arbre, 2);
+    arbre = insertAVL(&arbre, 71);
+    arbre = insertAVL(&arbre, 6);
+    arbre = insertAVL(&arbre, 49);
+    arbre = insertAVL(&arbre, 73);
+    arbre = insertAVL(&arbre, 28);
+    arbre = insertAVL(&arbre, 44);
+    arbre = insertAVL(&arbre, 50);
 
    printf("\nFator da Arvore A\n###########################\n");
    PrintWLevel(arbre, 0);
@@ -28,4 +28,3 @@ int main(){
    return 0;
 
 }
-

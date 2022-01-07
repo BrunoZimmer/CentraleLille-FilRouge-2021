@@ -5,3 +5,9 @@ Pour créer le executable, sur le fichier principal, tapper:
 make
 ./Fil.exe
 
+Exercice 1
+
+1- make
+2- ./displayAVL.exe + Fichier de noms + nombre de lignes à utiliser
+
+Exercice 2

@@ -1,67 +1,125 @@
 #include "../Headers/elt.h" // T_elt 
 #include "../Headers/Exerc1.h" 
 #include "../Headers/avl.h" 
+#include <assert.h>
+#include <sys/stat.h>
 
-void generatePNG(const T_Arbre l, const char * filename, const int value){
-	FILE *file;
+char* outputPath = ".";
 
-	T_Arbre aux = l;
-	int i=value;
-	// if(fopen(filename, "r")){
-    //     // fclose(file);
-	// }else{
-    //     // fclose(file);
-	// 	file = fopen(filename, "w");
-	// 	generateHeaderPNG(file);
-	// }
-	file = fopen(filename, "a");
-
-
-    if (aux){
-	// for(i=1;aux;i++, aux = aux->r){
-		// i=i+1;
-		if(aux->l)
-        	generatePNG(aux->l, filename, i+1);
-		if(aux->l && aux->r){
-			//"ID_0003" [label = "{<elt> 30000000  | <next> NULL}|{<> 1 | <next> NULL}"];
-			fprintf(file, "\"ID_%04d\" [label = \"{<elt> %s  ", i,toString(aux->data));
-			fprintf(file, "| <> %s } |{<nextL>  | <next> }\"];\n", toString(aux->facteur));
-			fprintf(file, "\"ID_%04d\" : next -> \"ID_%04d\";\n", i,i+1);
-			fprintf(file, "\"ID_%04d\" : next -> \"ID_%04d\";\n", i,i+2);
-		}else if(aux->l){
-			fprintf(file, "\"ID_%04d\" [label = \"{<elt> %s  ", i,toString(aux->data));
-			fprintf(file, "| <> %s } |{<nextL>  | <next> NULL }\"];\n", toString(aux->facteur));
-			fprintf(file, "\"ID_%04d\" : next -> \"ID_%04d\";\n", i,i+1);
-		}else if(aux->r){
-			fprintf(file, "\"ID_%04d\" [label = \"{<elt> %s  ", i,toString(aux->data));
-			fprintf(file, "| <> %s } |{<nextL> NULL | <next> }\"];\n", toString(aux->facteur));
-			fprintf(file, "\"ID_%04d\" : next -> \"ID_%04d\";\n", i,i+2);
-		}else{
-			fprintf(file, "\"ID_%04d\" [label = \"{<elt> %s  ", i,toString(aux->data));
-			fprintf(file, "| <> %s } |{<nextL> NULL | <next> NULL}\"];\n", toString(aux->facteur));
-		}
-		
-		// i=i+1;
-		if(aux->r)
-        	generatePNG(aux->r, filename, i+2);
+void imprimir_simples(T_abrNode* a){//////////////////////////////////
+    if (a == NULL){
+        return;
     }
 
-	// fclose(file);
+    printf("%s ", a->mots->data);
+    imprimir_simples(a->l);
+    imprimir_simples(a->r);
+
 }
 
-void generateHeaderPNG(FILE * filePNG)
+static void genDotAVL(const T_abrNode* root, FILE* basename)
 {
-	char ch, sourceFile[MAXCHAR];
-	FILE *source;
+	fprintf(basename, "\t\"%s\"",toString(root->mots->data)); 
+	fprintf(basename, " [label = \"{{<c> %s | <b> %d} | { <g> | <d>}}\"];\n",toString(root->mots->data),root->facteur);
+	if (root->r == NULL && root->l == NULL)
+	{
+		fprintf(basename, "\t\"%s\"", toString(root->mots->data));
+		fprintf(basename, " [label = \"{{<c> %s | <b> %d} | { <g> NULL | <d> NULL}}\"];\n", toString(root->mots->data),root->facteur);
+	}
+	else if (root->r == NULL)
+	{
+		fprintf(basename, "\t\"%s\"", toString(root->mots->data));
+		fprintf(basename, " [label = \"{{<c> %s | <b> %d} | { <g> | <d> NULL}}\"];\n", toString(root->mots->data),root->facteur);
+	}
+	else if (root->l == NULL)
+	{
+		fprintf(basename, "\t\"%s\"",toString(root->mots->data));
+		fprintf(basename, " [label = \"{{<c> %s | <b> %d} | { <g> NULL | <d> }}\"];\n", toString(root->mots->data),root->facteur);
+	}
 
-	strcpy(sourceFile, "../Headers/header.dot");
+	if (root->l)
+	{
+		fprintf(basename, "\t\"%s\"",toString(root->mots->data));
+		fprintf(basename, ":g -> \"%s\";\n", toString(root->l->mots->data));
+		genDotAVL(root->l, basename);
+	}
+
+	if (root->r)
+	{
+		fprintf(basename, "\t\"%s\"",toString(root->mots->data));
+		fprintf(basename,":d -> \"%s\";\n", toString(root->r->mots->data));
+		genDotAVL(root->r, basename);
+	}
+}
+
+void createDotAVL(const T_abrNode* root, const char* basename)
+{
+	static char oldBasename[FILENAME_MAX + 1] = "";
+	static unsigned int noVersion = 0;
+
+	char DOSSIER_DOT[FILENAME_MAX + 1]; 
+	char DOSSIER_PNG[FILENAME_MAX + 1]; 
+
+	char fnameDot [FILENAME_MAX + 1];
+	char fnamePng [FILENAME_MAX + 1];
+	char cmdLine [2 * FILENAME_MAX + 20];
+	FILE *fp;
+	struct stat sb;
 	
-    
-	source = fopen(sourceFile, "r");
-	while( ( ch = fgetc(source) ) != EOF )
-		fputc(ch, filePNG);
+	if (stat(outputPath, &sb) == 0 && S_ISDIR(sb.st_mode)) {
+    } else {
+        printf("Création du répertoire %s\n", outputPath);
+		mkdir(outputPath, 0777);
+    }
+	
+	sprintf(DOSSIER_DOT, "%s/img/dot/",outputPath);
+	sprintf(DOSSIER_PNG, "%s/img/png/",outputPath);
+	
+	if (oldBasename[0] == '\0') {
+		mkdir(DOSSIER_DOT,	S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+		mkdir(DOSSIER_PNG,	S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+	}
+	
+	if (strcmp(oldBasename, basename) != 0) {
+		noVersion = 0;
+		strcpy(oldBasename, basename); 
+	}
 
-	//printf("Header copied successfully.\n");
+	sprintf(fnameDot, "%s%s_v%02u.dot", DOSSIER_DOT, basename, noVersion);
+	sprintf(fnamePng, "%s%s_v%02u.png", DOSSIER_PNG, basename, noVersion);
+	
+	fp = fopen(fnameDot, "w");
+	
+	noVersion ++;
+    fprintf(fp, "digraph %s {\n", basename);
+ 	fprintf(fp, 
+		"\tnode [\n"
+			"\t\tfontname  = \"Arial bold\" \n"
+			"\t\tfontsize  = \"14\"\n"
+			"\t\tfontcolor = \"red\"\n"
+			"\t\tstyle     = \"rounded, filled\"\n"
+			"\t\tshape     = \"record\"\n"
+			"\t\tfillcolor = \"grey90\"\n"
+			"\t\tcolor     = \"blue\"\n"
+			"\t\twidth     = \"2\"\n"
+			"\t]\n"
+		"\n"
+		"\tedge [\n"
+			"\t\tcolor     = \"blue\"\n"
+		"\t]\n\n"
+	);
+		
+    if (root == NULL)
+        fprintf(fp, "\n");
+    else
+        genDotAVL(root, fp);
 
-	fclose(source);
+    fprintf(fp, "}\n");	
+    fclose(fp);
+
+    sprintf(cmdLine, "dot -T png  %s -o %s", fnameDot, fnamePng);
+    printf("dot -T png  %s -o %s", fnameDot, fnamePng);
+    system(cmdLine);
+
+    printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
 }

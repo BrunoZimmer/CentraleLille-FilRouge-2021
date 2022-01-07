@@ -1,71 +1,70 @@
-#include "../Headers/main.h"
+#include <stdio.h>
+#include <assert.h>
+#include <time.h> 
+#include <math.h>
+#include <unistd.h>
 
-#define MAXCHAR 100
+//#define CLEAR2CONTINUE
+#include "../include/traces.h" 
+#include "../include/check.h" 
 
-int main(){
-    T_arbNode *arbre;
-    FILE* filePNG, *fileFin;
-    int fator,ok, i;
-    char filename[MAXCHAR];
-    const char commandLine[MAXCHAR];
+// C'est dans le fichier elt.h qu'on doit choisir l'implémentation des T_elt
+#include "../Headers/elt.h"
+#include "../Headers/avl.h"
+#include "../Headers/Exerc1.h"
+#include "../Headers/anagrammes.h"
 
-    char separateur[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
-    FILE * prenoms;//ouvrir l'input
+int main(int argc, char *argv[]){
+  if(argc < 3){
+    printf("Saisissez le nom du programme + Fichier de noms + nombre de lignes à utiliser \n");
+    exit(1);
+  }
+  T_abr arbre  = NULL;
+  int nMots = atoi(argv[2]);
 
-    char *mot, *cle, ligne[MAXCHAR], *lema; 
+  FILE* filePNG, *fileFin;
+  int i;
+  char commandLine[MAXCHAR];
+  char* result;
 
-    // char* fichierArg = argv[1];
-    char* fichierArg = "Dico_01.txt";
-    char* fichierEntree[MAXCHAR];
+  char separateur[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
+  FILE * prenoms;//ouvrir l'input
 
-    sprintf(fichierEntree, "../Prenoms/%s", fichierArg);
-    prenoms = fopen (fichierEntree, "r");
+  char *mot, ligne[MAXCHAR]; 
 
-    if (prenoms == NULL){//Erreur lors de l'ouverture du fichier corrompu
-        printf ("Erreur lors de l'ouverture du fichier %s", fichierArg);
-        return 1;
-    }
-    arbre = StartTree();
+  char* fichierArg = argv[1];
+  char fichierEntree[MAXCHAR];
 
-    for(i=1;i<=10 || fgets(ligne,MAXCHAR,prenoms);i++){
+  sprintf(fichierEntree, "../Prenoms/%s", fichierArg);
+  prenoms = fopen (fichierEntree, "r");
 
-        mot= strtok (ligne, separateur);// Tous les caractères définis auparavant comme séparateur
+  //Erreur lors de l'ouverture du fichier corrompu
+  if (prenoms == NULL){ 
+      printf ("Erreur lors de l'ouverture du fichier %s \n", fichierArg);
+      return 1;
+  }
 
-        sprintf(filename, "./Image%d.dot", i);
-        filePNG = fopen(filename, "w");
-        
-        generateHeaderPNG(filePNG);
-        fclose(filePNG);
+  for(i=0; i<=nMots; i++){
+      printf("Mot %d \n", i);
+      mot= strtok (ligne, separateur);// Tous les caractères définis auparavant comme séparateur
+      result = fgets(mot, 50, prenoms);
 
-        arbre = InsertAVL(arbre, mot, &ok);
-        PrintWLevel(arbre, 0);NL();NL();
-        generatePNG(arbre, filename, 1);
-        fputs("\n}", filePNG);
+
+      insertAVL(&arbre, mot);
 
 //Ici manque une fonction de delay, parce que la prochaine ligne de command marche pas
 //parce que le document .dot n'est pas prêt pour faire la passage à PNG
-        sprintf(commandLine, "dot ./Output/Image%d.dot -T png -o ./Output/PNGImage.png", i);
-        system(commandLine);
-        sprintf(commandLine, "rm ./Output/Image%d.dot", i); //ÇA MARCHE (?????)
-        system(commandLine);
-        
-    }
-    
-    sprintf(commandLine, "zip -r ./Output/PNGImages.zip ./Output/*.png", i);
-    system(commandLine);
-    
 
-    printf("\nFator da Arvore A\n###########################\n");
-    PrintWLevel(arbre, 0);
-    printf("###########################\n");
+      createDotAVL(arbre, "displayAVL");
 
-    fator = FactorTree(arbre);
-    printf("O fator e %d\n", fator);
-    printf("###########################\n");
+      
+  }
+  
+  // sprintf(commandLine, "zip -r ./Output/PNGImages.zip ./img/png/*.png");
+  // system(commandLine);
 
-    system("pwd");
+  system("pwd");
 
-    return 0;
+  return 0;
 
 }
-

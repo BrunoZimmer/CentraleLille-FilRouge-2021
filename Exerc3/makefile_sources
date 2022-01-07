@@ -1,0 +1,1 @@
+main.c ../Files/anagrammes.c ../Headers/anagrammes.h ../Files/list.c ../Headers/list.h ../Files/avl.c ../Headers/avl.h ../Files/elt.c ../Headers/elt.h ../Headers/main.h

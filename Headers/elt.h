@@ -6,11 +6,12 @@
 	//#define ELT_CHAR		// un caractère ?
 	//#define ELT_INT		// un entier (choix par défaut) ?
 	#define ELT_STRING	// une chaîne de caractères ?
+	//#define ELT_STRUCT		// une structure plus complexe ? 
 	/////////////////////////////////////////////////////////////////////////
 
 	//https://stackoverflow.com/questions/2998864/how-to-add-a-or-condition-in-ifdef
 
-	#if ! defined(ELT_CHAR) && ! defined(ELT_INT) && ! defined(ELT_STRING)
+	#if ! defined(ELT_CHAR) && ! defined(ELT_INT) && ! defined(ELT_STRING) && ! defined(ELT_STRUCT)
 	#define ELT_INT
 	#endif
 
@@ -26,10 +27,18 @@
 	typedef char * T_elt; 
 	#endif
 
-
+	#ifdef ELT_STRUCT
+	typedef struct {
+		int * t; 	// un tableau 
+		int size; 	// la taille de ce tableau   	
+	} T_elt; 
+	#endif
 	// valable pour tous les types de T_elt 
 	char * toString(T_elt e); 
 	T_elt genElt(void); 
 	int compElt(T_elt e1, T_elt e2);
+	T_elt eltdup(T_elt);
+	T_elt eltSig(T_elt);
+	int eltcmp(T_elt, T_elt);  
 #endif 
 

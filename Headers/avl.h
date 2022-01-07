@@ -1,82 +1,46 @@
-// struct TNodoA
-// {
-//     int facteur;
-//     int fator;
-//     struct TNodoA *l;
-//     struct TNodoA *r;
-// };
-// typedef struct TNodoA T_Arbre;
-#include "elt.h" // T_elt
-#include "string.h" 
+#include <assert.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <time.h> 
 
-#ifndef _LIST_H_
-#define _LIST_H_
-#define LINELENGTH 60
-#define MAXCHAR 60
+//#define CLEAR2CONTINUE
+#include "../include/traces.h" 
 
-typedef struct T_arbNode {
-	T_elt data;
-	T_elt data2;
+//#define DEBUG
+#include "../include/check.h"
+
+#include "elt.h"
+#include "list.h"
+
+#ifndef _AVL_H_
+#define _AVL_H_
+#define MAXCHAR 100
+
+typedef struct abrNode{
+	T_list mots;
+	T_elt signature;
 	int facteur;
-	struct T_arbNode *l;
-	struct T_arbNode *r;
-} T_arbNode, * T_Arbre;
+	struct abrNode *l;
+	struct abrNode *r;
+} T_abrNode, *T_abr;
 
-//Inicializa a arvore
-T_arbNode* StartTree(void);
-//insere um novo nó na arvore
-T_arbNode* InsertTree(T_arbNode *node, T_elt data);
+extern char * outputPath;
 
-T_arbNode* Case1(T_arbNode *a, int *ok);
+int	insertAVL (T_abrNode ** node, T_elt e);
+void printAVL(T_abr node, int indent); 
+int heightAVL(T_abr);
+int nbNodesAVL(T_abr);
+T_abrNode * searchAVL_rec(T_abr node, T_elt e);
+T_abrNode * searchAVL_it(T_abr node, T_elt e);
+void print_SearchAVL(T_abr root, char *mot);
+void freeAVL(T_abr root); 
 
-T_arbNode* Case2(T_arbNode *a, int *ok);
-
-void checkAVL(T_arbNode *a);
-
-T_arbNode* InsertAVL(T_arbNode *node, T_elt data, int *ok);
-//printa os elementos da arvore no caminhamento pre fixado a luerda
-void PrintPreOrder(T_arbNode *node);
-
-void PrintPostOrder(T_arbNode *node);
-
-void PrintInOrder(T_arbNode *node);
-//print pre fixado a luerda só que com "=" mostrando o nivel do nó
-void PrintWLevel(T_arbNode *node, int nivel);
-//conta quantidade de elementos na arvore
-int NodeCounter(T_arbNode *node, int nivel);
-//retorna a altura do nodo A
-int Height (T_arbNode *a);
-//retorna o fator do nodo A
-int FindFactor(T_arbNode *a);
-//retorna o fator da arvore
-int FactorTree(T_arbNode *a);
-//retorna 1 se a lista estiver equilibrada e se não estiver retorna 0
-int Balanced(T_arbNode *a);
-
-T_arbNode* QueryABP(T_arbNode* a, T_elt data);
-
-T_arbNode* IntersectionTree(T_arbNode *a, T_arbNode *a2);
-
-void Intersect (T_arbNode* a, T_arbNode *b,  T_arbNode **c);
-
-int Compare (T_arbNode *a, T_arbNode *b);
-
-//##################ROTACOES AVL####################
-T_arbNode* RightRotation(T_arbNode* a);
-
-T_arbNode* LeftRotation(T_arbNode *a);
-
-T_arbNode* DoubleLeftRotation (T_arbNode *a);
-
-T_arbNode* DoubleRightRotation (T_arbNode* a);
-
-int xxx(T_arbNode *a);
-
-void PrintIntervalo(T_arbNode *node, T_elt small, T_elt big);
-
-void NodePosition(T_arbNode *node, int n, int k);
-
-void FactorizesTree(T_arbNode **a);
-
+int profondeurNode(T_abr, T_elt);
+int lenWords(T_abr node);
+int nbWords_AVL(T_abr root);
+int thereIsWord(T_abrNode *node, T_elt mot);
+int nbAnagrams(T_abr node);
 
 #endif 
+
+
