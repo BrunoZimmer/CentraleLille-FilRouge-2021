@@ -11,8 +11,8 @@
 // C'est dans le fichier elt.h qu'on doit choisir l'implémentation des T_elt
 #include "../Headers/elt.h"
 #include "../Headers/avl.h"
+// #include "../Headers/list.h"
 #include "../Headers/Exerc1.h"
-#include "../Headers/anagrammes.h"
 
 int main(int argc, char *argv[]){
   if(argc < 3){

@@ -1,1 +1,1 @@
-main.c ../Files/avl.c ../Headers/avl.h ../Files/elt.c ../Headers/elt.h ../Files/Exerc1.c ../Headers/Exerc1.h ../Headers/main.h
+main.c ../Files/avl.c ../Headers/avl.h ../Files/elt.c ../Headers/elt.h ../Files/Exerc1.c ../Headers/Exerc1.h ../Files/list.c ../Headers/list.h ../Headers/main.h

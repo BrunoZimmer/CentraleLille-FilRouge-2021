@@ -9,9 +9,9 @@
 //#define DEBUG
 #include "../include/check.h"
 
-#include "../Headers/elt.h"
+// #include "../Headers/elt.h"
 #include "../Headers/avl.h"
-#include "../Headers/list.h"
+// #include "../Headers/list.h"
 
 
 int maximum2(int x, int y){

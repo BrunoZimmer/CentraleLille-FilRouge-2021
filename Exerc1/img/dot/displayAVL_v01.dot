@@ -1,0 +1,32 @@
+digraph displayAVL {
+	node [
+		fontname  = "Arial bold" 
+		fontsize  = "14"
+		fontcolor = "red"
+		style     = "rounded, filled"
+		shape     = "record"
+		fillcolor = "grey90"
+		color     = "blue"
+		width     = "2"
+	]
+
+	edge [
+		color     = "blue"
+	]
+
+	"ABDEL-HAMID
+" [label = "{{<c> ABDEL-HAMID
+ | <b> -1} | { <g> | <d>}}"];
+	"ABDEL-HAMID
+" [label = "{{<c> ABDEL-HAMID
+ | <b> -1} | { <g> NULL | <d> }}"];
+	"ABDEL-HAMID
+":d -> "ABDELKADER
+";
+	"ABDELKADER
+" [label = "{{<c> ABDELKADER
+ | <b> 0} | { <g> | <d>}}"];
+	"ABDELKADER
+" [label = "{{<c> ABDELKADER
+ | <b> 0} | { <g> NULL | <d> NULL}}"];
+}
